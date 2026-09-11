@@ -1,0 +1,59 @@
+Para o tema de **Monitoramento de Segurança Cibernética**, o seu objetivo é desenvolver um mini-sistema funcional em **Gleam** focado em processar eventos de segurança em ativos de uma rede. 
+
+O trabalho é dividido em quatro grandes frentes: **Modelagem de Dados**, **Implementação de Funcionalidades**, **Ciclo de Projeto (Documentação)** e **Entregáveis**. 
+
+Abaixo está o mapeamento detalhado do que você precisa fazer especificamente para o seu tema:
+
+---
+
+### 1. Modelagem de Dados (Módulo `tipos.gleam`)
+Você deve representar o seu domínio usando o sistema de tipos estrito e funcional do Gleam, evitando o uso de `String` genéricas para categorias ou estados.
+
+*   **Entidade Principal (Tipo Produto):** Criar um tipo para representar um evento de segurança (ex: `Evento` ou `RegistroSeguranca`). Esse tipo deve conter campos como: `id` (Int), `origem` (ex: IP ou Host), `tipo de evento`, `quantidade de tentativas` (Int), `severidade` e `identificação do ativo`.
+*   **Dois Tipos Soma (ADTs):** 
+    1.  **Tipo de Evento:** Ex: `Login`, `Malware`, `Scan` ou `AcessoSuspeito`.
+    2.  **Severidade:** Ex: `Baixo`, `Medio`, `Alto` ou `Critico`.
+*   **Estrutura Hierárquica (Tipo Autorreferente):** Modelar uma árvore de componentes da rede: **Rede → Setor → Ativo → Eventos**. Por exemplo, uma `Rede` possui uma lista de `Setor`, que possui uma lista de `Ativo`, que por sua vez possui uma lista de eventos.
+
+---
+
+### 2. Funcionalidades Obrigatórias (F1 a F10)
+Você deve implementar e testar as seguintes 10 funcionalidades no seu código:
+
+*   **F1 – Criação e validação:** Criar funções para instanciar seus tipos e aplicar pelo menos **três validações significativas** do domínio (ex: checar se o IP de origem é válido, se a quantidade de tentativas é maior que zero, ou se o ID é positivo). Use os tipos `Option` ou `Result` para lidar com falhas.
+*   **F2 – Classificação:** Classificar os eventos de segurança em categorias utilizando tipos algébricos e *pattern matching* (ex: classificar o nível de risco de um evento combinando o tipo do evento e a severidade).
+*   **F3 – Agregação sobre lista:** Processar uma lista de eventos usando **recursão estrutural pura** (sem usar funções prontas como `List.fold` ou `List.map`) para calcular uma métrica (ex: contar o total de tentativas de invasão acumuladas).
+*   **F4 – Filtragem recursiva:** Retornar uma nova lista contendo apenas os eventos que atendam a um critério por recursão estrutural (ex: filtrar apenas eventos com severidade `Critico` ou `Alto`).
+*   **F5 – Transformação recursiva:** Gerar uma nova lista de dados a partir da original por recursão estrutural, preservando a imutabilidade (ex: mascarar o IP de origem dos eventos por questões de privacidade).
+*   **F6 – Busca:** Localizar um evento na lista por ID ou outro critério único, retornando `Option(Evento)` ou `Result(Evento, Erro)` para tratar o caso de o evento não existir.
+*   **F7 – Maior ou menor elemento:** Identificar recursivamente o elemento mais relevante (ex: encontrar o evento com o maior número de tentativas de acesso).
+*   **F8 – Análise combinada:** Resolver um problema que precise de **duas ou mais etapas**, usando funções auxiliares (ex: calcular a média de tentativas de login apenas para os ativos de um determinado setor que estejam sob alerta).
+*   **F9 – Processamento hierárquico:** Implementar pelo menos **duas funções recursivas** que processem a sua estrutura autorreferente de **Rede → Setor → Ativo** (ex: calcular o risco consolidado de uma Rede inteira ou buscar um Ativo específico dentro da estrutura).
+*   **F10 – Relatório textual:** Gerar uma única `String` legível contendo um resumo com pelo menos três indicadores calculados pelas suas funções anteriores.
+
+---
+
+### 3. Ciclo de Projeto das Funções (Documentação)
+Você deverá escolher **cinco funções** específicas do seu sistema para documentar detalhadamente. O grupo de funções selecionadas deve incluir obrigatoriamente:
+1. Uma função de validação ou classificação.
+2. Uma função que processe lista por recursão estrutural.
+3. Uma função que gere uma nova lista.
+4. Uma função que use plano de solução (com funções auxiliares).
+5. Uma função que navegue na estrutura hierárquica.
+
+Para cada uma dessas 5 funções, monte uma ficha no seu relatório contendo: **Análise, Definição dos tipos de dados, Especificação (com assinatura e exemplos), Implementação (nome do arquivo/função), Verificação (casos de teste) e Revisão**.
+
+---
+
+### 4. Entregáveis do Projeto
+Ao finalizar, sua equipe deve enviar um arquivo compactado contendo:
+*   **Código-fonte Gleam** completo e devidamente testado (todas as F1–F10 precisam de testes para casos típicos e limites).
+*   **README.md** identificando os membros, o tema, a modelagem criada e mapeando onde no código cada funcionalidade (F1–F10) foi implementada.
+*   **relatorio.pdf** com as fichas de ciclo de projeto das 5 funções escolhidas.
+*   **apresentacao.pdf** contendo os slides para a defesa de 10 a 15 minutos (com estrutura pré-definida: Capa, Problema, Modelagem, Recursão, Hierarquia, Plano, Testes, Demonstração, Conclusão, Referências).
+
+> ⚠️ **Lembrete de Programação Funcional:** Você deve usar **funções puras, dados imutáveis e recursão estrutural direta** para processar suas listas. O uso de funções de alta ordem prontas da biblioteca padrão do Gleam para substituir as recursões exigidas resultará em desconto na nota.
+
+---
+
+💻 Gostaria que eu te ajudasse a esboçar a modelagem de dados inicial em Gleam para os tipos do seu sistema de cybersegurança (como o tipo `Evento`, os tipos soma e a árvore hierárquica)?
