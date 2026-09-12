@@ -1,3 +1,5 @@
+>>>>>>>>>>>>>>>ESTE ARQUIVO SERÁ EXCLUIDO DEPOIS ASSIM COMO O DIAGRAMA<<<<<<<<<<<<<<<<<<<
+
 Para o tema de **Monitoramento de Segurança Cibernética**, o seu objetivo é desenvolver um mini-sistema funcional em **Gleam** focado em processar eventos de segurança em ativos de uma rede. 
 
 O trabalho é dividido em quatro grandes frentes: **Modelagem de Dados**, **Implementação de Funcionalidades**, **Ciclo de Projeto (Documentação)** e **Entregáveis**. 
