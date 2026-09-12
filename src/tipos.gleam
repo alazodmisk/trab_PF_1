@@ -1,3 +1,4 @@
+// Tipos auxiliares
 pub type TipoEvento {
     TentativaDeLogin
     Malware
@@ -21,7 +22,7 @@ pub type StatusEvento {
 
 // Tipos pertencentes à hierarquia
 pub type Evento {
-    Evento(id: Int, tipo: TipoEvento, severidade: Severidade, tentativas: Int, status: StatusEvento)
+    Evento(id: Int, origem: String, tipo: TipoEvento, severidade: Severidade, tentativas: Int, status: StatusEvento)
 }
 
 pub type Ativo {
