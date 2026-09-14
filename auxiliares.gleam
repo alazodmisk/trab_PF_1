@@ -9,5 +9,22 @@ import tipos.{
   Rede,
 }
 
-/// Funcao auxiliar de busca_setor_perigoso: busca.gleam
-/// Recebe os eventos do ativos do setor e verifica quantos destes possuem periculosidade alta ou critica
+
+/// Funcoes auxiliar de busca_setor_perigoso: busca.gleam
+/// extrai_eventos recebe a lista de ativos associados à um setor
+/// de cada ativo extrai a lista de eventos e manda para acumula_eventos_perigosos
+/// que vai acumular a quantidade de eventos de periculosidade alta ou critica
+/// Quando o acumula_eventos_perigosos terminar de calcular, a extrai_eventos envia
+/// uma nova lista de eventos até acabar os ativos e retorna todo o valor acumulado
+/// para a busca_setor_perigoso
+
+/// Recebe os eventos do ativos do setor e verifica quantos destes possuem 
+/// periculosidade alta ou critica
+pub fn acumula_eventos_perigosos(eventos: List(Eventos), acumulador: Int) {
+
+}
+
+/// Recebe uma lista de ativos e extrai a lista de eventos associado à ele
+pub fn extrai_eventos(ativos: List(Ativos), acumulador: Int) {
+
+}

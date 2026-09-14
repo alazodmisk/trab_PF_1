@@ -51,7 +51,12 @@ pub fn busca_ativo_por_id(ativos: List(Ativo), id: Int) -> List(Evento) {
 /// (severidade alta ou crítica) e indica qual é este setor. Ele vasculha por todos os ativos de um setor
 /// vai ser necessário usar funções auxiliares
 pub fn busca_setor_perigoso(setores: List(Setor), setor_mais_perigoso: Setor, qtd_eventos_perigosos: Int) -> Setor {
-
+    case setores {
+        [] -> setor_mais_perigoso
+        [Setor(id_setor, nome, ativos), ..resto] ->
+            
+            
+    }
 }
 
 
