@@ -21,7 +21,11 @@ import tipos.{
 /// Recebe os eventos do ativos do setor e verifica quantos destes possuem 
 /// periculosidade alta ou critica
 pub fn acumula_eventos_perigosos(eventos: List(Eventos), acumulador: Int) {
-
+    case eventos {
+        [] -> acumulador
+        [Evento(_, _, _, severidade, _, _), ..resto] ->
+            
+    }
 }
 
 /// Recebe uma lista de ativos e extrai a lista de eventos associado à ele
@@ -29,6 +33,6 @@ pub fn extrai_eventos(ativos: List(Ativos), acumulador: Int) {
     case ativos {
         [] -> acumulador
         [Ativo(id_ativo, nome, eventos), ..resto] ->
-          case
+            extrai_eventos(resto, acumula_eventos_perigosos(eventos, 0))
     }
 }
