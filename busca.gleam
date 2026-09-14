@@ -33,8 +33,16 @@ pub fn busca_evento_por_id(eventos: List(Evento), id: Int) -> Result(Evento, Str
 /// Busca por ativo - F9
 /// Recebe uma lista de ativos e o ID do ativo que se deseja encontrar. Ao encontrar o ativo, retorna
 /// a lista de eventos associado à ele
-pub fn busca_ativo_por_id(ativos: Setor, id: Int) -> Ativo {
+pub fn busca_ativo_por_id(ativos: List(Ativo), id: Int) -> List(Evento) {
+    case ativos {
+        [] -> []
 
+        [Ativo(id_ativo, nome, eventos), ..resto] ->
+            case id_ativo == id {
+                True -> eventos
+                False -> busca_ativo_por_id(resto, id)
+            }
+    }
 }
 
 
