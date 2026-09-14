@@ -11,10 +11,15 @@ pub fn calcula_total_invasoes(eventos: List(Evento)) -> Int {
 
 /// Instancia evento - F1
 /// Instancia um evento, registrando-o em um ativo e por consequência em um setor e por fim numa rede
-//ANÁLISE: Faça 
-//TIPOS DE DADOS: 
+//ANÁLISE: Faça uma função que recebe os parâmetros de um evento, instancia o evento e o adiciona à lista de eventos do ativo.
+//TIPOS DE DADOS: As entradas serão seis: Um Id que será representado pelo tipo primitivo *Int*, uma origem que será representada pelo tipo primitivo *String*, um tipo de evento que será representado pelo tipo enumerado *TipoEvento*, 
+//uma severidade que será representada pelo tipo enumerado*Severidade*, 
+//uma quantidade de tentativas que será representada pelo tipo primitivo *Int*, um status do evento que será representado pelo tipo *StatusEvento* e um ativo que será representado pelo tipo composto *Ativo*.
+//A saída será o ativo atualizado, que será representado pelo tipo *Ativo*.
 //ESPECIFICAÇÃO: 
-
+pub fn instancia_evento(id: Int, origem: String, tipo: TipoEvento, severidade: Severidade, tentativas: Int, status: StatusEvento, ativo: Ativo) -> Ativo {
+    todo 
+}
 
 /// Classifica evento - F2
 /// Classifica o grau de periculosidade de um evento recém instanciado
