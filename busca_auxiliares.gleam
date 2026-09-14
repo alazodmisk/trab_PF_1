@@ -24,7 +24,11 @@ pub fn acumula_eventos_perigosos(eventos: List(Eventos), acumulador: Int) {
     case eventos {
         [] -> acumulador
         [Evento(_, _, _, severidade, _, _), ..resto] ->
-            case severidade
+            case severidade {
+                tipos.Alta -> acumula_eventos_perigosos(resto, acumulador + 1)
+                tipos.Critica -> acumula_eventos_perigosos(resto, acumulador + 1)
+                _ -> acumula_eventos_perigosos(resto, acumulador)
+            }
     }
 }
 
@@ -33,6 +37,6 @@ pub fn extrai_eventos(ativos: List(Ativos), acumulador: Int) {
     case ativos {
         [] -> acumulador
         [Ativo(id_ativo, nome, eventos), ..resto] ->
-            extrai_eventos(resto, acumula_eventos_perigosos(eventos, 0))
+            extrai_eventos(resto, acumulador + acumula_eventos_perigosos(eventos, 0))
     }
 }
