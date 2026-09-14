@@ -8,7 +8,6 @@ pub fn calcula_total_invasoes(eventos: List(Evento)) -> Int {
     todo 
 }
 
-
 /// Instancia evento - F1
 /// Instancia um evento, registrando-o em um ativo e por consequência em um setor e por fim numa rede
 //ANÁLISE: Faça uma função que recebe os parâmetros de um evento, instancia o evento e o adiciona à lista de eventos do ativo.

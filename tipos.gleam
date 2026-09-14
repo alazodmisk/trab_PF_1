@@ -37,4 +37,3 @@ pub type Rede {
     Rede(id: Int, nome: String, setores: List(Setor))
 }
 
-//teste 
