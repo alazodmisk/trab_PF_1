@@ -27,6 +27,8 @@ pub fn acumula_eventos_perigosos(eventos: List(Eventos), acumulador: Int) {
 /// Recebe uma lista de ativos e extrai a lista de eventos associado à ele
 pub fn extrai_eventos(ativos: List(Ativos), acumulador: Int) {
     case ativos {
-        
+        [] -> acumulador
+        [Ativo(id_ativo, nome, eventos), ..resto] ->
+          case
     }
 }
