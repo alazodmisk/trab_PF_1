@@ -92,3 +92,15 @@ pub fn extrai_eventos_examples() {
     check.eq(busca_auxiliares.extrai_eventos([], 0),0)
     check.eq(busca_auxiliares.extrai_eventos([ativo1, ativo2, ativo3], 0),2)
 }
+
+
+// Check da funcao: tentativas_maior_menor
+
+pub fn tentativas_maior_menor_examples() {
+  let evento1 = tipos.Evento(1, "192.168.0.1", tipos.Malware, tipos.Alta, 10, tipos.EmAnalise)
+  let evento2 = tipos.Evento(2, "192.168.0.2", tipos.AcessoSuspeito, tipos.Media, 3, tipos.Desconhecido)
+  let evento3 = tipos.Evento(3, "192.168.0.3", tipos.AlteracaoDeDados, tipos.Baixa, 7, tipos.Resolvido)
+
+  check.eq(busca.tentativas_maior_menor([evento1, evento2, evento3],evento1,evento1),[evento1, evento2])
+}
+

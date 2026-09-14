@@ -63,4 +63,21 @@ pub fn busca_setor_perigoso(setores: List(Setor), id_setor_mais_perigoso: Int, q
 
 
 /// Busca elemento com maior e menor tentativa - F7
-/// Procura os dois eventos com maior e menor quantidade de tentativas em uma lista de eventos e os retorna
+/// Recebe uma lista de eventos e retorna o evento com maior e menor quantidade de tentativas
+/// Caso a lista esteja vazia, retorna um erro
+pub fn tentativas_maior_menor(eventos: List(Evento), maior: Evento, menor: Evento) -> List(Evento) {
+    case eventos {
+        [] -> [maior, menor]
+        [Evento(id, ip, tipo, severidade, tentativas, status), ..resto] ->
+            case tentativas > maior.tentativas { 
+                True -> case tentativas < menor.tentativas { 
+                    True -> tentativas_maior_menor(resto, Evento(id, ip, tipo, severidade, tentativas, status), Evento(id, ip, tipo, severidade, tentativas, status))
+                    False -> tentativas_maior_menor(resto, Evento(id, ip, tipo, severidade, tentativas, status), menor) 
+                } 
+                False -> case tentativas < menor.tentativas { 
+                    True -> tentativas_maior_menor(resto, maior, Evento(id, ip, tipo, severidade, tentativas, status)) 
+                    False -> tentativas_maior_menor(resto, maior, menor) 
+                } 
+            }
+    }
+}
