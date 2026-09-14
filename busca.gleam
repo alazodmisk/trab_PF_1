@@ -8,7 +8,7 @@ import tipos.{
   type Rede,
   Rede,
 }
-
+import auxiliares
 
 
 /// Busca por ID - F6
@@ -50,7 +50,7 @@ pub fn busca_ativo_por_id(ativos: List(Ativo), id: Int) -> List(Evento) {
 /// Receba a lista de todos os setores e vasculha qual o setor possui os eventos com maiores periculosidades
 /// (severidade alta ou crítica) e indica qual é este setor. Ele vasculha por todos os ativos de um setor
 /// vai ser necessário usar funções auxiliares
-pub fn busca_setor_perigoso(setores: List(Setor), setor_mais_perigoso: Setor) -> Setor {
+pub fn busca_setor_perigoso(setores: List(Setor), setor_mais_perigoso: Setor, qtd_eventos_perigosos: Int) -> Setor {
 
 }
 
