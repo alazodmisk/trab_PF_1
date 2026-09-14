@@ -20,7 +20,7 @@ pub fn busca_evento_por_id(eventos: List(Evento), id: Int) -> Result(Evento, Str
 
         [primeiro, ..resto] ->
         case primeiro {
-            Evento(id_evento, _, _, _, _, _) if id_evento == id ->
+            Evento(id_evento, ..) if id_evento == id ->
             Ok(primeiro)
 
             _ ->
@@ -30,7 +30,7 @@ pub fn busca_evento_por_id(eventos: List(Evento), id: Int) -> Result(Evento, Str
 }
 
 
-/// Busca por ativo - F9
+/// Busca por ativo por id - F9
 /// Recebe uma lista de ativos e o ID do ativo que se deseja encontrar. Ao encontrar o ativo, retorna
 /// a lista de eventos associado à ele
 pub fn busca_ativo_por_id(ativos: List(Ativo), id: Int) -> List(Evento) {
