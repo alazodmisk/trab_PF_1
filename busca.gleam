@@ -1,12 +1,23 @@
-import tipos.{type Ativo, type Evento, type Rede, type Setor}
-import src/processamento.gleam
+import tipos
+
 
 
 /// Busca por ID - F6
 /// A busca evento por ID tem como entrada o ID e toda uma lista de eventos. A busca_evento_por_id 
 /// varre a lista de eventos em busca do evento com o ID informado, caso não encontre, retorna um erro.
-pub fn busca_evento_por_id(eventos: Ativo, id: Int) -> Evento {
+pub fn busca_evento_por_id(eventos: List(Evento), id: Int) -> Result(Evento, String) {
+    case eventos {
+        [] -> Error("Evento não encontrado")
 
+        [primeiro, ..resto] ->
+        case primeiro {
+            Evento(id_evento, _, _, _, _, _) if id_evento == id ->
+            Ok(primeiro)
+
+            _ ->
+            busca_evento_por_id(resto, id)
+        }
+    }
 }
 
 
@@ -28,5 +39,3 @@ pub fn busca_setor_perigoso(setores: Rede) -> Setor {
 
 /// Busca elemento com maior e menor tentativa - F7
 /// Procura os dois eventos com maior e menor quantidade de tentativas em uma lista de eventos e os retorna
-
-
