@@ -24,3 +24,9 @@ pub fn busca_ativo_por_id(ativos: Setor, id: Int) -> Ativo {
 pub fn busca_setor_perigoso(setores: Rede) -> Setor {
 
 }
+
+
+/// Busca elemento com maior e menor tentativa - F7
+/// Procura os dois eventos com maior e menor quantidade de tentativas em uma lista de eventos e os retorna
+
+
