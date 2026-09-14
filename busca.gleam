@@ -46,10 +46,11 @@ pub fn busca_ativo_por_id(ativos: List(Ativo), id: Int) -> List(Evento) {
 }
 
 
-/// Busca por setor mais perigoso - F9 e F4
+/// Busca por setor mais perigoso - F9, F8 e F4
 /// Receba a lista de todos os setores e vasculha qual o setor possui os eventos com maiores periculosidades
 /// (severidade alta ou crítica) e indica qual é este setor. Ele vasculha por todos os ativos de um setor
-pub fn busca_setor_perigoso(setores: Rede) -> Setor {
+/// vai ser necessário usar funções auxiliares
+pub fn busca_setor_perigoso(setores: List(Setor), setor_mais_perigoso: Setor) -> Setor {
 
 }
 
