@@ -54,10 +54,10 @@ pub fn busca_setor_perigoso(setores: List(Setor), id_setor_mais_perigoso: Setor,
     case setores {
         [] -> id_setor_mais_perigoso
         [Setor(id_setor, nome, ativos), ..resto] ->
-            let valor_acumulado = busca_auxiliares.extrai_eventos(ativos)
+            let valor_acumulado = busca_auxiliares.extrai_eventos(ativos, 0)
             case qtd_eventos_perigosos < valor_acumulado {
-                True -> busca_setor_perigoso(..resto, id_setor, valor_acumulado)
-                False -> busca_setor_perigoso(..resto, id_setor_mais_perigoso, qtd_eventos_perigosos)
+                True -> busca_setor_perigoso(resto, id_setor, valor_acumulado)
+                False -> busca_setor_perigoso(resto, id_setor_mais_perigoso, qtd_eventos_perigosos)
             }            
     }
 }
