@@ -51,14 +51,15 @@ pub fn busca_setor_perigoso_examples() {
     let evento4 = tipos.Evento(4,"Computador 4",tipos.Malware,tipos.Baixa,2,tipos.EmAnalise)
 
     let ativo1 = tipos.Ativo(1, "Ativo 1", [evento1, evento2])
-    let ativo2 = tipos.Ativo(2, "Ativo 2", [evento3])
+    let ativo2 = tipos.Ativo(2, "Ativo 2", [evento3, evento4])
     let ativo3 = tipos.Ativo(3, "Ativo 3", [evento4])
+
     let setor1 = tipos.Setor(1, "Setor 1", [ativo1])
     let setor2 = tipos.Setor(2, "Setor 2", [ativo2])
     let setor3 = tipos.Setor(3, "Setor 3", [ativo3])
 
-    check.eq(busca_setor_perigoso([setor1, setor2, setor3], setor1, 0),2)
-    check.eq(busca_setor_perigoso([setor1, setor2], setor1, 0),2)
-    check.eq(busca_setor_perigoso([setor1], setor1, 0),1)
-    check.eq(busca_setor_perigoso([], setor1, 0),1)
+    check.eq(busca.busca_setor_perigoso([setor1, setor2, setor3], 0, 0),2)
+    check.eq(busca.busca_setor_perigoso([setor1, setor2], 0, 0),2)
+    check.eq(busca.busca_setor_perigoso([setor1], 0, 0),1)
+    check.eq(busca.busca_setor_perigoso([], 0, 0),0)
 }

@@ -50,13 +50,12 @@ pub fn busca_ativo_por_id(ativos: List(Ativo), id: Int) -> List(Evento) {
 /// Receba a lista de todos os setores e vasculha qual o setor possui os eventos com maiores periculosidades
 /// (severidade alta ou crítica) e indica qual é este setor pelo seu id. Ele vasculha por todos os ativos de um setor
 /// vai ser necessário usar funções auxiliares
-pub fn busca_setor_perigoso(setores: List(Setor), id_setor_mais_perigoso: Setor, qtd_eventos_perigosos: Int) -> Int {
+pub fn busca_setor_perigoso(setores: List(Setor), id_setor_mais_perigoso: Int, qtd_eventos_perigosos: Int) -> Int {
     case setores {
         [] -> id_setor_mais_perigoso
         [Setor(id_setor, nome, ativos), ..resto] ->
-            let valor_acumulado = busca_auxiliares.extrai_eventos(ativos, 0)
-            case qtd_eventos_perigosos < valor_acumulado {
-                True -> busca_setor_perigoso(resto, id_setor, valor_acumulado)
+            case qtd_eventos_perigosos < busca_auxiliares.extrai_eventos(ativos, 0) {
+                True -> busca_setor_perigoso(resto, id_setor, busca_auxiliares.extrai_eventos(ativos, 0))
                 False -> busca_setor_perigoso(resto, id_setor_mais_perigoso, qtd_eventos_perigosos)
             }            
     }
