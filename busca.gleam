@@ -1,4 +1,13 @@
-import tipos
+import tipos.{
+  type Ativo,
+  Ativo,
+  type Evento,
+  Evento,
+  type Setor,
+  Setor,
+  type Rede,
+  Rede,
+}
 
 
 

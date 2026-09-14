@@ -1,4 +1,4 @@
-import src/tipos.gleam
+
 
 
 /// Calcula total de invasões - F3

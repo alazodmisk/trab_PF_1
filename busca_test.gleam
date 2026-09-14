@@ -1,5 +1,14 @@
-import tipos
 import busca
+import tipos.{
+  type Ativo,
+  Ativo,
+  type Evento,
+  Evento,
+  type Setor,
+  Setor,
+  type Rede,
+  Rede,
+}
 import sgleam/check
 
 // Check da funcao: busca_evento_por_id
