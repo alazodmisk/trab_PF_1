@@ -22,7 +22,12 @@ pub type StatusEvento {
 
 // Tipos pertencentes à hierarquia
 pub type Evento {
-    Evento(id: Int, ip: String, tipo: TipoEvento, severidade: Severidade, tentativas: Int, status: StatusEvento)
+    Evento(id: Int, 
+        ip: String, 
+        tipo: TipoEvento, 
+        severidade: Severidade, 
+        tentativas: Int, 
+        status: StatusEvento)
 }
 
 pub type Ativo {
