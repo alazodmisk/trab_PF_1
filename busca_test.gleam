@@ -95,7 +95,6 @@ pub fn extrai_eventos_examples() {
 
 
 // Check da funcao: tentativas_maior_menor
-
 pub fn tentativas_maior_menor_examples() {
   let evento1 = tipos.Evento(1, "192.168.0.1", tipos.Malware, tipos.Alta, 10, tipos.EmAnalise)
   let evento2 = tipos.Evento(2, "192.168.0.2", tipos.AcessoSuspeito, tipos.Media, 3, tipos.Desconhecido)
