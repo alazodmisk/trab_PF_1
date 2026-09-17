@@ -1,11 +1,16 @@
+import tipos
+
 /// Calcula total de invasões - F3
 /// A partir da lista de eventos de um ativo, calcula o total de tentativas acumulado
 //ANÁLISE: Faça uma função que recebe uma lista de eventos e devolve a soma de tentativas de todos os eventos da lista.
 //TIPOS DE DADOS: A entrada será uma lista de eventos, que será representada por List(Evento). A saída será a quantidade de 
 //total de tentativas, representada pelo tipo primitivo *Int*.
 //ESPECIFICAÇÃO: Recebe uma lista de *eventos* e devolve a soma de tentativas de todos os eventos da lista.
-pub fn calcula_total_invasoes(eventos: List(Evento)) -> Int {
-    todo 
+pub fn calcula_total_invasoes(eventos: List(tipos.Evento)) -> Int {
+    case eventos {
+        [] -> 0
+        [primeiro, ..resto] -> primeiro.tentativas + calcula_total_invasoes(resto)
+    }
 }
 
 /// Instancia evento - F1
@@ -16,7 +21,7 @@ pub fn calcula_total_invasoes(eventos: List(Evento)) -> Int {
 //uma quantidade de tentativas que será representada pelo tipo primitivo *Int*, um status do evento que será representado pelo tipo *StatusEvento* e um ativo que será representado pelo tipo composto *Ativo*.
 //A saída será o ativo atualizado, que será representado pelo tipo *Ativo*.
 //ESPECIFICAÇÃO: Recebe os atributos de um evento e um ativo, instancia o evento e o adiciona à lista de eventos do ativo, devolvendo o ativo atualizado.
-pub fn instancia_evento(id: Int, ip: String, tipo: TipoEvento, severidade: Severidade, tentativas: Int, status: StatusEvento, ativo: Ativo) -> Ativo {
+pub fn instancia_evento(id: Int, ip: String, tipo: tipos.TipoEvento, severidade: tipos.Severidade, tentativas: Int, status: tipos.StatusEvento, ativo: tipos.Ativo) -> tipos.Ativo {
     todo 
 }
 
@@ -26,9 +31,9 @@ pub fn instancia_evento(id: Int, ip: String, tipo: TipoEvento, severidade: Sever
 //TIPOS DE DADOS: A entrada será um evento, que será representado pelo tipo composto *Evento*. A saída será o mesmo evento com a severidade atualizada, 
 //que será representado pelo tipo composto *Evento*.
 //ESPECIFICAÇÃO: Recebe um evento e devolve o mesmo evento com a severidade atualizada de acordo com a quantidade de tentativas.
-pub fn classifica_evento(evento: Evento) -> Evento {
-    todo 
-}
+//pub fn classifica_evento(evento: tipos.Evento) -> tipos.Evento {
+    //todo 
+//}
 
 
 /// Mascara IP - F5
@@ -36,9 +41,9 @@ pub fn classifica_evento(evento: Evento) -> Evento {
 //ANÁLISE: Faça uma função que recebe uma lista de eventos e devolve a mesma lista porém com os IPs dos eventos escrito "mascarado" no lugar.
 //TIPOS DE DADOS: A entrada será uma lista de eventos, que será representada pelo tipo composto *List(Evento)*. A saída será a mesma lista de eventos porém com os IPs dos eventos escrito "mascarado" no lugar, que será representada pelo tipo composto *List(Evento)*.
 //ESPECIFICAÇÃO: Recebe uma lista de eventos e devolve a mesma lista porém com os IPs dos eventos escrito "mascarado" no lugar.
-pub fn mascara_ip(eventos: List(Evento)) -> List(Evento) {
-    todo 
-}
+//pub fn mascara_ip(eventos: List(tipos.Evento)) -> List(tipos.Evento) {
+    //todo 
+//}
 
 
 /// Calcula média - F8
@@ -47,9 +52,9 @@ pub fn mascara_ip(eventos: List(Evento)) -> List(Evento) {
 //ANÁLISE: Faça uma função que receba uma lista de eventos e calcule a quantidade média de tentativas dessa lista.
 //TIPOS DE DADOS: A entrada será uma lista de eventos, que será representada pelo tipo composto *List(Evento)*. A saída será a quantidade média de tentativas, que será representada pelo tipo primitivo *Float*.
 //ESPECIFICAÇÃO: Recebe uma lista de *eventos* e devolve a quantidade média de tentativas.
-pub fn calcula_media(eventos: List(Evento)) -> Float {
-    todo 
-}
+//pub fn calcula_media(eventos: List(tipos.Evento)) -> Float {
+    //todo 
+//}
 
 
 /// Imprime relatório - F10
@@ -57,6 +62,6 @@ pub fn calcula_media(eventos: List(Evento)) -> Float {
 //ANÁLISE: Faça uma função que receba uma rede e devolva uma string com três indicadores do sistema: o setor mais perigoso, a quantidade de eventos com severidade crítica e a quantidade de eventos com severidade alta.
 //TIPOS DE DADOS: A entrada será uma rede, que será representada pelo tipo composto *Rede*. A saída será uma string, que será representada pelo tipo primitivo *String*.
 //ESPECIFICAÇÃO: Recebe uma *rede* e devolve uma string com três indicadores do sistema.
-pub fn imprime_relatorio(rede: Rede) -> String {
-    todo 
-}
+//pub fn imprime_relatorio(rede: tipos.Rede) -> String {
+    //todo 
+//}
