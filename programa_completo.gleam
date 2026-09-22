@@ -377,19 +377,12 @@ pub fn calcula_media(eventos: List(Evento)) -> Float {
 
 
 
-
-
-
-
-
 /// -----------------------------------
 /// *** FUNÇÕES AUXILIARES DE PROCESSAMENTO ***
 /// -----------------------------------
 
-
-/// -----------------------------------
 /// *** AUXILIARES PARA INSTANCIA_EVENTO ***
-/// -----------------------------------
+
 //ANÁLISE:
 //TIPOS DE DADOS:
 //ESPECIFICAÇÃO:
@@ -440,9 +433,9 @@ pub fn atualiza_setores_examples() {
     check.eq(atualiza_setores([], setor_atualizado), [])
 }
 
-/// -----------------------------------
+
 /// *** AUXILIARES PARA CALCULA_MEDIA ***
-/// -----------------------------------
+
 //ANÁLISE: Faça uma função que recebe uma lista de eventos e conta quantos eventos ela tem.
 //TIPOS DE DADOS: A entrada será uma: Uma lista de eventos representada por um tipo com autorreferência contendo o tipo composto *Evento*, uma *List(Evento)*.
 //A saída será a quantidade de eventos dessa lista, representada pelo tipo primitivo *Int*.
@@ -478,9 +471,6 @@ pub fn conta_tentativas_examples() {
     check.eq(conta_tentativas([evento1]), 3)
     check.eq(conta_tentativas([]), 0)
 }
-
-
-
 
 
 
