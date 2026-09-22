@@ -15,7 +15,9 @@ pub fn calcula_total_invasoes_examples() {
 //EXEMPLOS F1
 pub fn instancia_evento_examples() {
     let ativo = tipos.Ativo(1, "Ativo 1", [])
-    let evento = processamento.instancia_evento(1, "Acesso não autorizado", tipos.TentativaDeLogin, tipos.Alta, 3, tipos.EmAnalise, ativo)
+    let setor = tipos.Setor(1, "Setor 1", [ativo])
+    let rede = tipos.Rede(1, "Rede 1", [setor])
+    let evento = processamento.instancia_evento(1, "Acesso não autorizado", tipos.TentativaDeLogin, tipos.Alta, 3, tipos.EmAnalise, ativo, setor, rede)
     check.eq(evento, tipos.Ativo(1, "Ativo 1", [tipos.Evento(1, "Acesso não autorizado", tipos.TentativaDeLogin, tipos.Alta, 3, tipos.EmAnalise)]))
 } 
 
