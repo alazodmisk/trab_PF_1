@@ -1,4 +1,5 @@
 import sgleam/check
+import gleam/int
 
 /// --------------------------------
 /// *** TIPOS ***
@@ -100,7 +101,7 @@ pub fn extrai_eventos(ativos: List(Ativo), acumulador: Int) {
 /// ANÁLISE: É necessário fazer uma função que encontre um evento em uma lista de eventos.
 /// TIPOS DE DADOS ENVOLVIDOS: Uma lista de eventos [List(Evento)] e um ID do tipo primitivo *Int*. 
 /// A saída será o evento encontrado, representado pelo tipo composto *Evento* ou uma mensagem de erro, 
-/// representada pelo tipo primitivo *String*.w
+/// representada pelo tipo primitivo *String*.
 /// ESPECIFICAÇÃO: Recebe uma lista de eventos e um ID, varre a lista de eventos em busca do evento com o 
 /// ID informado, caso não encontre, retorna um erro.
 pub fn busca_evento_por_id(eventos: List(Evento), id: Int) -> Result(Evento, String) {
@@ -321,30 +322,48 @@ pub fn instancia_evento(id: Int, ip: String, tipo: TipoEvento, severidade: Sever
 //TIPOS DE DADOS: A entrada será um evento, que será representado pelo tipo composto *Evento*. A saída será o mesmo evento com a severidade atualizada, 
 //que será representado pelo tipo composto *Evento*.
 //ESPECIFICAÇÃO: Recebe um evento e devolve o mesmo evento com a severidade atualizada de acordo com a quantidade de tentativas.
-//pub fn classifica_evento(evento: Evento) -> Evento {
-    //todo 
-//}
-
+pub fn classifica_evento(evento: Evento) -> Evento {
+    case evento.tentativas == 0 {
+        True -> Evento(evento.id, evento.ip, evento.tipo, Nula, evento.tentativas, evento.status)
+        False -> case evento.tentativas < 3 {
+            True -> Evento(evento.id, evento.ip, evento.tipo, Baixa, evento.tentativas, evento.status)
+            False -> case evento.tentativas < 5 {
+                True -> Evento(evento.id, evento.ip, evento.tipo, Media, evento.tentativas, evento.status)
+                False -> case evento.tentativas < 10 {
+                    True -> Evento(evento.id, evento.ip, evento.tipo, Alta, evento.tentativas, evento.status)
+                    False -> Evento(evento.id, evento.ip, evento.tipo, Critica, evento.tentativas, evento.status)
+                }
+            }
+        } 
+    }
+}
 
 /// Mascara IP - F5
 /// Recebe uma lista de eventos e devolve a mesma lista porém sem o IP (0 ou Nulo)
 //ANÁLISE: Faça uma função que recebe uma lista de eventos e devolve a mesma lista porém com os IPs dos eventos escrito "mascarado" no lugar.
 //TIPOS DE DADOS: A entrada será uma lista de eventos, que será representada pelo tipo composto *List(Evento)*. A saída será a mesma lista de eventos porém com os IPs dos eventos escrito "mascarado" no lugar, que será representada pelo tipo composto *List(Evento)*.
 //ESPECIFICAÇÃO: Recebe uma lista de eventos e devolve a mesma lista porém com os IPs dos eventos escrito "mascarado" no lugar.
-//pub fn mascara_ip(eventos: List(Evento)) -> List(Evento) {
-    //todo 
-//}
+pub fn mascara_ip(eventos: List(Evento)) -> List(Evento) {
+    case eventos {
+        [] -> []
+        [primeiro, ..resto] -> [Evento(primeiro.id, "mascarado", primeiro.tipo, primeiro.severidade, primeiro.tentativas, primeiro.status), ..mascara_ip(resto)]
+    }
+}
 
 
 /// Calcula média - F8
 /// Calcula a média de quantidade de tentativas em uma lista de eventos.
-/// Necessário duas funções auxiliares
 //ANÁLISE: Faça uma função que receba uma lista de eventos e calcule a quantidade média de tentativas dessa lista.
 //TIPOS DE DADOS: A entrada será uma lista de eventos, que será representada pelo tipo composto *List(Evento)*. A saída será a quantidade média de tentativas, que será representada pelo tipo primitivo *Float*.
 //ESPECIFICAÇÃO: Recebe uma lista de *eventos* e devolve a quantidade média de tentativas.
-//pub fn calcula_media(eventos: List(Evento)) -> Float {
-    //todo 
-//}
+pub fn calcula_media(eventos: List(Evento)) -> Float {
+    let quantidade_eventos = int.to_float(conta_eventos(eventos))
+    let quantidade_tentativas = int.to_float(conta_tentativas(eventos))
+    quantidade_tentativas /. quantidade_eventos
+}
+
+
+
 
 
 /// Imprime relatório - F10
@@ -358,10 +377,19 @@ pub fn instancia_evento(id: Int, ip: String, tipo: TipoEvento, severidade: Sever
 
 
 
+
+
+
+
+
 /// -----------------------------------
 /// *** FUNÇÕES AUXILIARES DE PROCESSAMENTO ***
 /// -----------------------------------
-/// 
+
+
+/// -----------------------------------
+/// *** AUXILIARES PARA INSTANCIA_EVENTO ***
+/// -----------------------------------
 //ANÁLISE:
 //TIPOS DE DADOS:
 //ESPECIFICAÇÃO:
@@ -413,10 +441,54 @@ pub fn atualiza_setores_examples() {
 }
 
 /// -----------------------------------
+/// *** AUXILIARES PARA CALCULA_MEDIA ***
+/// -----------------------------------
+//ANÁLISE: Faça uma função que recebe uma lista de eventos e conta quantos eventos ela tem.
+//TIPOS DE DADOS: A entrada será uma: Uma lista de eventos representada por um tipo com autorreferência contendo o tipo composto *Evento*, uma *List(Evento)*.
+//A saída será a quantidade de eventos dessa lista, representada pelo tipo primitivo *Int*.
+//ESPECIFICAÇÃO: Recebe uma lista de eventos *eventos* e conta quantos eventos ela possui.
+pub fn conta_eventos(eventos: List(Evento)) -> Int {
+    case eventos {
+        [] -> 0
+        [__primeiro, ..resto] -> 1 + conta_eventos(resto)
+    }
+}
+pub fn conta_eventos_examples() {
+    check.eq(conta_eventos([]), 0)
+    let evento1 = Evento(1, "Computador 1", Malware, Alta, 3, EmAnalise)
+    check.eq(conta_eventos([evento1]), 1)       
+    check.eq(conta_eventos([evento1, Evento(2, "Computador 2", AcessoSuspeito, Media, 1, Desconhecido)]), 2)
+}
+
+//ANÁLISE: Faça uma função que recebe uma lista de eventos e calcula quantas tentativas totais a lista tem.
+//TIPOS DE DADOS: A entrada será uma: Uma lista de eventos representada pelo tipo com autorreferência contendo o tipo composto *Evento*, um *List(Evento)*.
+//A saída será a quantidade bruta e somada de tentativas de todos os eventos da lista, representada pelo tipo primitivo *Int*.
+//ESPECIFICAÇÃO: Recebe uma lista de eventos *lst* e calcula todas as tentativas da lista.
+pub fn conta_tentativas(lst: List(Evento)) -> Int {
+    case lst {
+        [] -> 0
+        [primeiro, ..resto] -> primeiro.tentativas + conta_tentativas(resto) 
+    }
+}
+pub fn conta_tentativas_examples() {
+    let evento1 = Evento(1, "Computador 1", Malware, Alta, 3, EmAnalise)
+    let evento2 = Evento(2, "Computador 2", AcessoSuspeito, Media, 1, Desconhecido)
+    let evento3 = Evento(3, "Computador 3", TentativaDeLogin, Baixa, 5, Resolvido)
+    check.eq(conta_tentativas([evento1, evento2, evento3]), 9)
+    check.eq(conta_tentativas([evento1]), 3)
+    check.eq(conta_tentativas([]), 0)
+}
+
+
+
+
+
+
+/// -----------------------------------
 /// *** EXAMPLES PROCESSAMENTO***
 /// -----------------------------------
 
-//EXEMPLOS F3
+//EXEMPLOS F3: calcula_total_invasoes
 pub fn calcula_total_invasoes_examples() {
     let evento1 =Evento(1, "Computador 1", Malware, Alta, 3, EmAnalise)
     let evento2 =Evento(2, "Computador 2", AcessoSuspeito, Media, 1, Desconhecido)
@@ -426,54 +498,39 @@ pub fn calcula_total_invasoes_examples() {
     check.eq(calcula_total_invasoes([]),0)
 }
 
-//EXEMPLOS F1
+//EXEMPLOS F1: instancia_evento
 pub fn instancia_evento_examples() {
     let evento1 =Evento(1, "Computador 1", Malware, Alta, 3, EmAnalise)
     let ativo1 =Ativo(1, "Ativo 1", [evento1])
     let setor1 =Setor(1, "Setor 1", [ativo1])
     let rede1 =Rede(1, "Rede 1", [setor1])
     check.eq(instancia_evento(2, "Computador 2", AcessoSuspeito, Media, 1, Desconhecido, ativo1, setor1, rede1), Rede(1, "Rede 1", [Setor(1, "Setor 1", [Ativo(1, "Ativo 1", [Evento(2, "Computador 2", AcessoSuspeito, Media, 1, Desconhecido), Evento(1, "Computador 1", Malware, Alta, 3, EmAnalise)])])]))
+    check.eq(instancia_evento(3, "Computador 3", TentativaDeLogin, Baixa, 5, Resolvido, ativo1, setor1, rede1), Rede(1, "Rede 1", [Setor(1, "Setor 1", [Ativo(1, "Ativo 1", [Evento(3, "Computador 3", TentativaDeLogin, Baixa, 5, Resolvido), Evento(1, "Computador 1", Malware, Alta, 3, EmAnalise)])])]))
+    check.eq(instancia_evento(4, "Computador 4", Malware, Alta, 3, EmAnalise, ativo1, setor1, rede1), Rede(1, "Rede 1", [Setor(1, "Setor 1", [Ativo(1, "Ativo 1", [Evento(4, "Computador 4", Malware, Alta, 3, EmAnalise), Evento(1, "Computador 1", Malware, Alta, 3, EmAnalise)])])]))
 } 
 
-//EXEMPLOS F2
-//pub fn classifica_evento_examples() {
-    //let evento1 = tipos.Evento(1, "Computador 1", tipos.Malware, tipos.Nula, 0, tipos.Desconhecido)
-    //let evento2 = tipos.Evento(2, "Computador 2", tipos.AcessoSuspeito, tipos.Nula, 3, tipos.Desconhecido)
-    //let evento3 = tipos.Evento(3, "Computador 3", tipos.TentativaDeLogin, tipos.Nula, 6, tipos.Desconhecido)
-    //check.eq(processamento.classifica_evento(evento1), tipos.Evento(1, "Computador 1", tipos.Malware, tipos.Nula, 0, tipos.Desconhecido))
-    //check.eq(processamento.classifica_evento(evento2), tipos.Evento(2, "Computador 2", tipos.AcessoSuspeito, tipos.Alta, 3, tipos.Desconhecido))
-    //check.eq(processamento.classifica_evento(evento3), tipos.Evento(3, "Computador 3", tipos.TentativaDeLogin, tipos.Critica, 6, tipos.Desconhecido))
-//}
+//EXEMPLOS F2: classifica_evento
+pub fn classifica_evento_examples() {
+    check.eq(classifica_evento(Evento(1, "Computador 1", Malware, Alta, 3, EmAnalise)), Evento(1, "Computador 1", Malware, Media, 3, EmAnalise))
+    check.eq(classifica_evento(Evento(2, "Computador 2", AcessoSuspeito, Media, 1, Desconhecido)), Evento(2, "Computador 2", AcessoSuspeito, Baixa, 1, Desconhecido))
+    check.eq(classifica_evento(Evento(3, "Computador 3", TentativaDeLogin, Baixa, 5, Resolvido)), Evento(3, "Computador 3", TentativaDeLogin, Alta, 5, Resolvido))
+}
 
 //EXEMPLOS F5
-//pub fn mascara_ip_examples() {
-    //let evento1 = tipos.Evento(1, "192.168.1.1", tipos.Malware, tipos.Alta, 3, tipos.EmAnalise)
-    //let evento2 = tipos.Evento(2, "192.168.1.2", tipos.AcessoSuspeito, tipos.Media, 1, tipos.Desconhecido)
-    //let evento3 = tipos.Evento(3, "192.168.1.3", tipos.TentativaDeLogin, tipos.Baixa, 5, tipos.Resolvido)
-    //check.eq(processamento.mascara_ip([evento1, evento2, evento3]), [tipos.Evento(1, "0.0.0.0", tipos.Malware, tipos.Alta, 3, tipos.EmAnalise), tipos.Evento(2, "0.0.0.0", tipos.AcessoSuspeito, tipos.Media, 1, tipos.Desconhecido), tipos.Evento(3, "0.0.0.0", tipos.TentativaDeLogin, tipos.Baixa, 5, tipos.Resolvido)])
-//}
+pub fn mascara_ip_examples() {
+    check.eq(mascara_ip([Evento(1, "Computador 1", Malware, Alta, 3, EmAnalise), Evento(2, "Computador 2", AcessoSuspeito, Media, 1, Desconhecido)]), [Evento(1, "mascarado", Malware, Alta, 3, EmAnalise), Evento(2, "mascarado", AcessoSuspeito, Media, 1, Desconhecido)])
+    check.eq(mascara_ip([Evento(1, "Computador 1", Malware, Alta, 3, EmAnalise)]), [Evento(1, "mascarado", Malware, Alta, 3, EmAnalise)])
+    check.eq(mascara_ip([]), [])
+}
 
 //EXEMPLOS F8
-//pub fn calcula_media_examples() {
-    //let evento1 = tipos.Evento(1, "Computador 1", tipos.Malware, tipos.Alta, 3, tipos.EmAnalise)
-    //let evento2 = tipos.Evento(2, "Computador 2", tipos.AcessoSuspeito, tipos.Media, 1, tipos.Desconhecido)
-    //let evento3 = tipos.Evento(3, "Computador 3", tipos.TentativaDeLogin, tipos.Baixa, 5, tipos.Resolvido)
-    //check.eq(processamento.calcula_media([evento1, evento2, evento3]), 3.0)
-    //check.eq(processamento.calcula_media([evento1]), 3.0)
-    //check.eq(processamento.calcula_media([]), 0.0)
-//}
+pub fn calcula_media_examples() {
+    check.eq(calcula_media([Evento(1, "Computador 1", Malware, Alta, 3, EmAnalise), Evento(2, "Computador 2", AcessoSuspeito, Media, 1, Desconhecido)]), 2.0)
+    check.eq(calcula_media([Evento(1, "Computador 1", Malware, Alta, 3, EmAnalise)]), 3.0)
+    check.eq(calcula_media([]), 0.0)
+}
 
 //EXEMPLOS F10
 //pub fn imprime_relatorio_examples() {
-    //let evento1 = tipos.Evento(1, "Computador 1", tipos.Malware, tipos.Critica, 3, tipos.EmAnalise)
-    //let evento2 = tipos.Evento(2, "Computador 2", tipos.AcessoSuspeito, tipos.Alta, 1, tipos.Desconhecido)
-    //let evento3 = tipos.Evento(3, "Computador 3", tipos.TentativaDeLogin, tipos.Baixa, 5, tipos.Resolvido)
-    //let ativo1 = tipos.Ativo(1, "Ativo 1", [evento1])
-    //let ativo2 = tipos.Ativo(2, "Ativo 2", [evento2])
-    //let ativo3 = tipos.Ativo(3, "Ativo 3", [evento3])
-    //let setor1 = tipos.Setor(1, "Setor 1", [ativo1])
-    //let setor2 = tipos.Setor(2, "Setor 2", [ativo2])
-    //let setor3 = tipos.Setor(3, "Setor 3", [ativo3])
-    //let rede = tipos.Rede(1, "Rede 1", [setor1, setor2, setor3])
-    //check.eq(processamento.imprime_relatorio(rede), "Setor mais perigoso: Setor 1\nQuantidade de eventos críticos: 1\nQuantidade de eventos altos: 1")
+    //todo
 //}
