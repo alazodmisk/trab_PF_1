@@ -85,5 +85,21 @@ Processamento (funções que recebem dados como entradas e devolve novos dados).
     2. Rode no terminal "sgleam -t <arquivo>.gleam"
 
 ### Análise do projeto:
+O projeto foi desenvolvido com o objetivo de representar uma estrutura hierárquica de uma rede e seus respectivos eventos de segurança. A utilização de tipos personalizados permite organizar os dados em diferentes níveis, sendo a Rede composta por Setores, os Setores compostos por Ativos e os Ativos compostos por Eventos.
+
+As funcionalidades de busca utilizam essa estrutura para localizar informações específicas dentro da hierarquia, como eventos e ativos, além de realizar verificações relacionadas à segurança da rede. Já as funções de processamento recebem os dados necessários e realizam operações sobre eles, produzindo novas informações a partir dos eventos monitorados.
+
+A utilização de listas e funções recursivas é fundamental para percorrer os diferentes níveis da hierarquia. Dessa forma, o sistema consegue analisar conjuntos de dados sem depender de estruturas imperativas de repetição, mantendo a proposta de programação funcional utilizada no projeto.
+
+Além disso, os tipos soma utilizados em TipoEvento, Severidade e StatusEvento permitem representar diferentes possibilidades para cada evento, tornando a estrutura dos dados mais organizada e permitindo que as funções tratem cada situação de acordo com sua classificação.
 
 ### Especificação: 
+O sistema deve permitir representar uma rede composta por setores, ativos e eventos de segurança. Cada evento deve possuir um identificador, endereço IP, tipo, severidade, quantidade de tentativas e status.
+
+As funções de busca devem permitir localizar eventos e ativos por meio de seus identificadores, além de identificar setores que apresentem características relacionadas à segurança. A função tentativas_maior_menor deve permitir realizar comparações relacionadas à quantidade de tentativas registradas nos eventos.
+
+As funções de processamento devem realizar operações sobre os dados fornecidos, incluindo o cálculo do total de invasões, a criação de novos eventos, a classificação de eventos, a aplicação de máscara sobre endereços IP e o cálculo de médias.
+
+Por fim, a função imprime_relatorio deve utilizar os dados processados para apresentar as informações relevantes do monitoramento da rede de forma organizada.
+
+O sistema deve manter a utilização de funções, listas, tipos personalizados e recursão, seguindo os princípios de programação funcional propostos para o trabalho.
