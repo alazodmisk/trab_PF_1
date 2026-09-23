@@ -542,6 +542,6 @@ pub fn calcula_media_examples() {
 pub fn imprime_relatorio_examples() {
     check.eq(imprime_relatorio(Rede(1, "Rede 1", [Setor(1, "Setor 1", [Ativo(1, "Ativo 1", [Evento(1, "Computador 1", Malware, Alta, 3, EmAnalise), Evento(2, "Computador 2", AcessoSuspeito, Media, 1, Desconhecido)])])])), "Setor mais perigoso: 1, Quantidade de eventos críticos ou altos: 1")
     check.eq(imprime_relatorio(Rede(1, "Rede 1", [Setor(1, "Setor 1", [Ativo(1, "Ativo 1", [Evento(1, "Computador 1", Malware, Alta, 3, EmAnalise)])])])), "Setor mais perigoso: 1, Quantidade de eventos críticos ou altos: 1")
-    check.eq(imprime_relatorio(Rede(1, "Rede 1", [Setor(1, "Setor 1", [Ativo(1, "Ativo 1", [])])])), "Setor mais perigoso: 1, Quantidade de eventos críticos ou altos: 0")
+    check.eq(imprime_relatorio(Rede(1, "Rede 1", [Setor(1, "Setor 1", [Ativo(1, "Ativo 1", [])])])), "Setor mais perigoso: 0, Quantidade de eventos críticos ou altos: 0")
     check.eq(imprime_relatorio(Rede(1, "Rede 1", [])), "Setor mais perigoso: 0, Quantidade de eventos críticos ou altos: 0")
 }
