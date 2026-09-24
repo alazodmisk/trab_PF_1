@@ -363,13 +363,15 @@ pub fn calcula_media(eventos: List(Evento)) -> Float {
 
 /// Imprime relatório - F10
 /// Imprime três indicadores do sistema em uma string
-//ANÁLISE: Faça uma função que receba uma rede e devolva uma string com três indicadores do sistema: o setor mais perigoso, a quantidade de eventos com severidade crítica ou alta.
+//ANÁLISE: Faça uma função que receba uma rede e devolva uma string com três indicadores do sistema: o setor mais perigoso, a quantidade de eventos com severidade crítica ou alta,
+//e a quantidade de tentativas de todos os eventos da rede.
 //TIPOS DE DADOS: A entrada será uma rede, que será representada pelo tipo composto *Rede*. A saída será uma string, que será representada pelo tipo primitivo *String*.
 //ESPECIFICAÇÃO: Recebe uma *rede* e devolve uma string com três indicadores do sistema.
 pub fn imprime_relatorio(rede: Rede) -> String {
     let setor_mais_perigoso = busca_setor_perigoso(rede.setores, 0, 0) 
     let quantidade_eventos_criticos_ou_altos = calcula_eventos_criticos_ou_altos(rede.setores)
-    "Setor mais perigoso: " <> int.to_string(setor_mais_perigoso) <> ", Quantidade de eventos críticos ou altos: " <> int.to_string(quantidade_eventos_criticos_ou_altos)
+    let quantidade_tentativas_rede = calcula_tentativas_setores(rede.setores)
+    "Setor mais perigoso: " <> int.to_string(setor_mais_perigoso) <> ", Quantidade de eventos críticos ou altos: " <> int.to_string(quantidade_eventos_criticos_ou_altos) <> ", Quantidade de tentativas da rede: " <> int.to_string(quantidade_tentativas_rede)
 }
 
 /// -----------------------------------
@@ -492,7 +494,37 @@ pub fn calcula_eventos_criticos_ou_altos_examples() {
     check.eq(calcula_eventos_criticos_ou_altos([]), 0)
 }
 
+//ANÁLISE: Faça uma função que recebe uma lista de ativos e calcula a quantidade de tentativas de todos os eventos da lista.
+//TIPOS DE DADOS: As entradas serão uma lista de ativos representada pelo tipo com autorreferência contendo o tipo composto *Ativo*, um *List(Ativo)*. 
+//A saída será a quantidade de tentativas de todos os eventos da lista, representada pelo tipo primitivo *Int*.
+//EPSECIFICAÇÃO: Recebe uma lista de ativos *ativos* e calcula a quantidade de tentativas somada de todos os eventos da lista.
+pub fn calcula_tentativas_ativos(ativos: List(Ativo)) -> Int {
+    case ativos {
+        [] -> 0
+        [primeiro, ..resto] -> calcula_total_invasoes(primeiro.eventos) + calcula_tentativas_ativos(resto) 
+    }
+}
+pub fn calcula_tentativas_ativos_examples() {
+    check.eq(calcula_tentativas_ativos([Ativo(1, "Ativo 1", [Evento(1, "Computador 1", Malware, Alta, 3, EmAnalise), Evento(2, "Computador 2", AcessoSuspeito, Media, 1, Desconhecido)]), Ativo(2, "Ativo 2", [Evento(3, "Computador 3", TentativaDeLogin, Baixa, 5, Resolvido)])]), 9)
+    check.eq(calcula_tentativas_ativos([Ativo(1, "Ativo 1", [Evento(1, "Computador 1", Malware, Alta, 3, EmAnalise)])]), 3)
+    check.eq(calcula_tentativas_ativos([]), 0)
+}
 
+//ANÁLISE: Faça uma função que recebe uma lista de setores e calcula a quantidade de tentativas de todos os eventos da lista.
+//TIPOS DE DADOS: As entradas serão uma lista de setores representada pelo tipo com autorreferência contendo o tipo composto *Setor*, um *List(Setor)*.
+//A saída será a quantidade de tentativas de todos os eventos da lista, representada pelo tipo primitivo *Int*.
+//ESPECIFICAÇÃO: Recebe uma lista de setores *setores* e calcula a quantidade de tentativas somada de todos os eventos da lista.
+pub fn calcula_tentativas_setores(setores: List(Setor)) -> Int {
+    case setores {
+        [] -> 0
+        [primeiro, ..resto] -> calcula_tentativas_ativos(primeiro.ativos) + calcula_tentativas_setores(resto)
+    }
+}
+pub fn calcula_tentativas_setores_examples() {
+    check.eq(calcula_tentativas_setores([Setor(1, "Setor 1", [Ativo(1, "Ativo 1", [Evento(1, "Computador 1", Malware, Alta, 3, EmAnalise), Evento(2, "Computador 2", AcessoSuspeito, Media, 1, Desconhecido)])]), Setor(2, "Setor 2", [Ativo(2, "Ativo 2", [Evento(3, "Computador 3", TentativaDeLogin, Baixa, 5, Resolvido)])])]), 9)
+    check.eq(calcula_tentativas_setores([Setor(1, "Setor 1", [Ativo(1, "Ativo 1", [Evento(1, "Computador 1", Malware, Alta, 3, EmAnalise)])])]), 3)
+    check.eq(calcula_tentativas_setores([]), 0)
+}
 
 /// -----------------------------------
 /// *** EXAMPLES PROCESSAMENTO***
@@ -542,8 +574,8 @@ pub fn calcula_media_examples() {
 
 //EXEMPLOS F10
 pub fn imprime_relatorio_examples() {
-    check.eq(imprime_relatorio(Rede(1, "Rede 1", [Setor(1, "Setor 1", [Ativo(1, "Ativo 1", [Evento(1, "Computador 1", Malware, Alta, 3, EmAnalise), Evento(2, "Computador 2", AcessoSuspeito, Media, 1, Desconhecido)])])])), "Setor mais perigoso: 1, Quantidade de eventos críticos ou altos: 1")
-    check.eq(imprime_relatorio(Rede(1, "Rede 1", [Setor(1, "Setor 1", [Ativo(1, "Ativo 1", [Evento(1, "Computador 1", Malware, Alta, 3, EmAnalise)])])])), "Setor mais perigoso: 1, Quantidade de eventos críticos ou altos: 1")
-    check.eq(imprime_relatorio(Rede(1, "Rede 1", [Setor(1, "Setor 1", [Ativo(1, "Ativo 1", [])])])), "Setor mais perigoso: 0, Quantidade de eventos críticos ou altos: 0")
-    check.eq(imprime_relatorio(Rede(1, "Rede 1", [])), "Setor mais perigoso: 0, Quantidade de eventos críticos ou altos: 0")
+    check.eq(imprime_relatorio(Rede(1, "Rede 1", [Setor(1, "Setor 1", [Ativo(1, "Ativo 1", [Evento(1, "Computador 1", Malware, Alta, 3, EmAnalise), Evento(2, "Computador 2", AcessoSuspeito, Media, 1, Desconhecido)])]), Setor(2, "Setor 2", [Ativo(2, "Ativo 2", [Evento(3, "Computador 3", TentativaDeLogin, Baixa, 5, Resolvido)])])])), "Setor mais perigoso: 1, Quantidade de eventos críticos ou altos: 1, Quantidade de tentativas da rede: 9")
+    check.eq(imprime_relatorio(Rede(1, "Rede 1", [Setor(1, "Setor 1", [Ativo(1, "Ativo 1", [Evento(1, "Computador 1", Malware, Alta, 3, EmAnalise)])]), Setor(2, "Setor 2", [Ativo(2, "Ativo 2", [Evento(2, "Computador 2", AcessoSuspeito, Media, 1, Desconhecido)])])])), "Setor mais perigoso: 1, Quantidade de eventos críticos ou altos: 1, Quantidade de tentativas da rede: 4")
+    check.eq(imprime_relatorio(Rede(1, "Rede 1", [Setor(1, "Setor 1", [Ativo(1, "Ativo 1", [Evento(1, "Computador 1", Malware, Alta, 3, EmAnalise)])])])), "Setor mais perigoso: 1, Quantidade de eventos críticos ou altos: 1, Quantidade de tentativas da rede: 3")
+    check.eq(imprime_relatorio(Rede(1, "Rede 1", [])), "Setor mais perigoso: 0, Quantidade de eventos críticos ou altos: 0, Quantidade de tentativas da rede: 0")
 }
