@@ -395,16 +395,6 @@ pub fn atualiza_ativos(ativos: List(Ativo), ativo_atualizado: Ativo) -> List(Ati
     }
   }
 }
-pub fn atualiza_ativos_examples() {
-    let ativo1 = Ativo(1, "Ativo 1", [])
-    let ativo2 = Ativo(2, "Ativo 2", [])
-    let ativo3 = Ativo(3, "Ativo 3", [])
-    let ativo_atualizado = Ativo(2, "Ativo 2 Atualizado", [])
-    check.eq(atualiza_ativos([ativo1, ativo2, ativo3], ativo_atualizado), [ativo1, ativo_atualizado, ativo3])
-    check.eq(atualiza_ativos([ativo1, ativo2], ativo_atualizado), [ativo1, ativo_atualizado])
-    check.eq(atualiza_ativos([ativo1], ativo_atualizado), [ativo1])
-    check.eq(atualiza_ativos([], ativo_atualizado), [])
-}
 
 //ANÁLISE: Faça uma função que recebe uma lista de setores e um setor atualizado, e devolve a lista de setores atualizada com o setor atualizado no lugar do setor antigo.
 //TIPOS DE DADOS: A entrada será uma lista de setores e um setor atualizado, que serão representados pelos tipos composto *List(Setor)* e *Setor*. A saída será a lista de setores atualizada, que será representada pelo tipo composto *List(Setor)*.
@@ -420,16 +410,6 @@ pub fn atualiza_setores(setores: List(Setor), setor_atualizado: Setor) -> List(S
     }
   }
 }
-pub fn atualiza_setores_examples() {
-    let setor1 = Setor(1, "Setor 1", [])
-    let setor2 = Setor(2, "Setor 2", [])
-    let setor3 = Setor(3, "Setor 3", [])
-    let setor_atualizado = Setor(2, "Setor 2 Atualizado", [])
-    check.eq(atualiza_setores([setor1, setor2, setor3], setor_atualizado), [setor1, setor_atualizado, setor3])
-    check.eq(atualiza_setores([setor1, setor2], setor_atualizado), [setor1, setor_atualizado])
-    check.eq(atualiza_setores([setor1], setor_atualizado), [setor1])
-    check.eq(atualiza_setores([], setor_atualizado), [])
-}
 
 /// -----------------------------------
 /// *** AUXILIARES PARA CALCULA_MEDIA ***
@@ -444,12 +424,6 @@ pub fn conta_eventos(eventos: List(Evento)) -> Int {
         [__primeiro, ..resto] -> 1 + conta_eventos(resto)
     }
 }
-pub fn conta_eventos_examples() {
-    check.eq(conta_eventos([]), 0)
-    let evento1 = Evento(1, "Computador 1", Malware, Alta, 3, EmAnalise)
-    check.eq(conta_eventos([evento1]), 1)       
-    check.eq(conta_eventos([evento1, Evento(2, "Computador 2", AcessoSuspeito, Media, 1, Desconhecido)]), 2)
-}
 
 //ANÁLISE: Faça uma função que recebe uma lista de eventos e calcula quantas tentativas totais a lista tem.
 //TIPOS DE DADOS: A entrada será uma: Uma lista de eventos representada pelo tipo com autorreferência contendo o tipo composto *Evento*, um *List(Evento)*.
@@ -460,14 +434,6 @@ pub fn conta_tentativas(lst: List(Evento)) -> Int {
         [] -> 0
         [primeiro, ..resto] -> primeiro.tentativas + conta_tentativas(resto) 
     }
-}
-pub fn conta_tentativas_examples() {
-    let evento1 = Evento(1, "Computador 1", Malware, Alta, 3, EmAnalise)
-    let evento2 = Evento(2, "Computador 2", AcessoSuspeito, Media, 1, Desconhecido)
-    let evento3 = Evento(3, "Computador 3", TentativaDeLogin, Baixa, 5, Resolvido)
-    check.eq(conta_tentativas([evento1, evento2, evento3]), 9)
-    check.eq(conta_tentativas([evento1]), 3)
-    check.eq(conta_tentativas([]), 0)
 }
 
 /// -----------------------------------
@@ -483,16 +449,6 @@ pub fn calcula_eventos_criticos_ou_altos(setores: List(Setor)) -> Int {
         [Setor(_, _, ativos), ..resto] -> extrai_eventos(ativos, 0) + calcula_eventos_criticos_ou_altos(resto)
     }
 }
-pub fn calcula_eventos_criticos_ou_altos_examples() {
-    let evento1 = Evento(1, "Computador 1", Malware, Alta, 3, EmAnalise)
-    let evento2 = Evento(2, "Computador 2", AcessoSuspeito, Media, 1, Desconhecido)
-    let evento3 = Evento(3, "Computador 3", TentativaDeLogin, Critica, 5, Resolvido)
-    let evento4 = Evento(4, "Computador 4", Malware, Baixa, 2, EmAnalise)
-    check.eq(calcula_eventos_criticos_ou_altos([Setor(1, "Setor 1", [Ativo(1, "Ativo 1", [evento1, evento2])]), Setor(2, "Setor 2", [Ativo(2, "Ativo 2", [evento3, evento4])])]), 2)
-    check.eq(calcula_eventos_criticos_ou_altos([Setor(1, "Setor 1", [Ativo(1, "Ativo 1", [evento1, evento2])])]), 1)
-    check.eq(calcula_eventos_criticos_ou_altos([Setor(2, "Setor 2", [Ativo(2, "Ativo 2", [evento3, evento4])])]), 1)
-    check.eq(calcula_eventos_criticos_ou_altos([]), 0)
-}
 
 //ANÁLISE: Faça uma função que recebe uma lista de ativos e calcula a quantidade de tentativas de todos os eventos da lista.
 //TIPOS DE DADOS: As entradas serão uma lista de ativos representada pelo tipo com autorreferência contendo o tipo composto *Ativo*, um *List(Ativo)*. 
@@ -503,11 +459,6 @@ pub fn calcula_tentativas_ativos(ativos: List(Ativo)) -> Int {
         [] -> 0
         [primeiro, ..resto] -> calcula_total_invasoes(primeiro.eventos) + calcula_tentativas_ativos(resto) 
     }
-}
-pub fn calcula_tentativas_ativos_examples() {
-    check.eq(calcula_tentativas_ativos([Ativo(1, "Ativo 1", [Evento(1, "Computador 1", Malware, Alta, 3, EmAnalise), Evento(2, "Computador 2", AcessoSuspeito, Media, 1, Desconhecido)]), Ativo(2, "Ativo 2", [Evento(3, "Computador 3", TentativaDeLogin, Baixa, 5, Resolvido)])]), 9)
-    check.eq(calcula_tentativas_ativos([Ativo(1, "Ativo 1", [Evento(1, "Computador 1", Malware, Alta, 3, EmAnalise)])]), 3)
-    check.eq(calcula_tentativas_ativos([]), 0)
 }
 
 //ANÁLISE: Faça uma função que recebe uma lista de setores e calcula a quantidade de tentativas de todos os eventos da lista.
@@ -520,15 +471,71 @@ pub fn calcula_tentativas_setores(setores: List(Setor)) -> Int {
         [primeiro, ..resto] -> calcula_tentativas_ativos(primeiro.ativos) + calcula_tentativas_setores(resto)
     }
 }
+
+/// -----------------------------------
+/// *** EXAMPLES PROCESSAMENTO***
+/// -----------------------------------
+
+pub fn atualiza_ativos_examples() {
+    let ativo1 = Ativo(1, "Ativo 1", [])
+    let ativo2 = Ativo(2, "Ativo 2", [])
+    let ativo3 = Ativo(3, "Ativo 3", [])
+    let ativo_atualizado = Ativo(2, "Ativo 2 Atualizado", [])
+    check.eq(atualiza_ativos([ativo1, ativo2, ativo3], ativo_atualizado), [ativo1, ativo_atualizado, ativo3])
+    check.eq(atualiza_ativos([ativo1, ativo2], ativo_atualizado), [ativo1, ativo_atualizado])
+    check.eq(atualiza_ativos([ativo1], ativo_atualizado), [ativo1])
+    check.eq(atualiza_ativos([], ativo_atualizado), [])
+}
+
+pub fn atualiza_setores_examples() {
+    let setor1 = Setor(1, "Setor 1", [])
+    let setor2 = Setor(2, "Setor 2", [])
+    let setor3 = Setor(3, "Setor 3", [])
+    let setor_atualizado = Setor(2, "Setor 2 Atualizado", [])
+    check.eq(atualiza_setores([setor1, setor2, setor3], setor_atualizado), [setor1, setor_atualizado, setor3])
+    check.eq(atualiza_setores([setor1, setor2], setor_atualizado), [setor1, setor_atualizado])
+    check.eq(atualiza_setores([setor1], setor_atualizado), [setor1])
+    check.eq(atualiza_setores([], setor_atualizado), [])
+}
+
+pub fn conta_eventos_examples() {
+    check.eq(conta_eventos([]), 0)
+    let evento1 = Evento(1, "Computador 1", Malware, Alta, 3, EmAnalise)
+    check.eq(conta_eventos([evento1]), 1)       
+    check.eq(conta_eventos([evento1, Evento(2, "Computador 2", AcessoSuspeito, Media, 1, Desconhecido)]), 2)
+}
+
+pub fn conta_tentativas_examples() {
+    let evento1 = Evento(1, "Computador 1", Malware, Alta, 3, EmAnalise)
+    let evento2 = Evento(2, "Computador 2", AcessoSuspeito, Media, 1, Desconhecido)
+    let evento3 = Evento(3, "Computador 3", TentativaDeLogin, Baixa, 5, Resolvido)
+    check.eq(conta_tentativas([evento1, evento2, evento3]), 9)
+    check.eq(conta_tentativas([evento1]), 3)
+    check.eq(conta_tentativas([]), 0)
+}
+
+pub fn calcula_eventos_criticos_ou_altos_examples() {
+    let evento1 = Evento(1, "Computador 1", Malware, Alta, 3, EmAnalise)
+    let evento2 = Evento(2, "Computador 2", AcessoSuspeito, Media, 1, Desconhecido)
+    let evento3 = Evento(3, "Computador 3", TentativaDeLogin, Critica, 5, Resolvido)
+    let evento4 = Evento(4, "Computador 4", Malware, Baixa, 2, EmAnalise)
+    check.eq(calcula_eventos_criticos_ou_altos([Setor(1, "Setor 1", [Ativo(1, "Ativo 1", [evento1, evento2])]), Setor(2, "Setor 2", [Ativo(2, "Ativo 2", [evento3, evento4])])]), 2)
+    check.eq(calcula_eventos_criticos_ou_altos([Setor(1, "Setor 1", [Ativo(1, "Ativo 1", [evento1, evento2])])]), 1)
+    check.eq(calcula_eventos_criticos_ou_altos([Setor(2, "Setor 2", [Ativo(2, "Ativo 2", [evento3, evento4])])]), 1)
+    check.eq(calcula_eventos_criticos_ou_altos([]), 0)
+}
+
+pub fn calcula_tentativas_ativos_examples() {
+    check.eq(calcula_tentativas_ativos([Ativo(1, "Ativo 1", [Evento(1, "Computador 1", Malware, Alta, 3, EmAnalise), Evento(2, "Computador 2", AcessoSuspeito, Media, 1, Desconhecido)]), Ativo(2, "Ativo 2", [Evento(3, "Computador 3", TentativaDeLogin, Baixa, 5, Resolvido)])]), 9)
+    check.eq(calcula_tentativas_ativos([Ativo(1, "Ativo 1", [Evento(1, "Computador 1", Malware, Alta, 3, EmAnalise)])]), 3)
+    check.eq(calcula_tentativas_ativos([]), 0)
+}
+
 pub fn calcula_tentativas_setores_examples() {
     check.eq(calcula_tentativas_setores([Setor(1, "Setor 1", [Ativo(1, "Ativo 1", [Evento(1, "Computador 1", Malware, Alta, 3, EmAnalise), Evento(2, "Computador 2", AcessoSuspeito, Media, 1, Desconhecido)])]), Setor(2, "Setor 2", [Ativo(2, "Ativo 2", [Evento(3, "Computador 3", TentativaDeLogin, Baixa, 5, Resolvido)])])]), 9)
     check.eq(calcula_tentativas_setores([Setor(1, "Setor 1", [Ativo(1, "Ativo 1", [Evento(1, "Computador 1", Malware, Alta, 3, EmAnalise)])])]), 3)
     check.eq(calcula_tentativas_setores([]), 0)
 }
-
-/// -----------------------------------
-/// *** EXAMPLES PROCESSAMENTO***
-/// -----------------------------------
 
 //EXEMPLOS F3: calcula_total_invasoes
 pub fn calcula_total_invasoes_examples() {
