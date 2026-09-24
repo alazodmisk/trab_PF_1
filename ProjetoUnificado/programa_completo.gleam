@@ -283,6 +283,8 @@ pub fn tentativas_maior_menor_examples() {
 /// -----------------------------------
 /// *** PROCESSAMENTO ***
 /// -----------------------------------
+
+
 /// Calcula total de invasões - F3
 /// A partir da lista de eventos de um ativo, calcula o total de tentativas acumulado
 //ANÁLISE: Faça uma função que recebe uma lista de eventos e devolve a soma de tentativas de todos os eventos da lista.
